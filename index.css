@@ -1,0 +1,366 @@
+* {
+	box-sizing: border-box;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.hidden {
+	display: none;
+}
+
+:focus {
+	outline: .2rem solid #0007;
+	outline-offset: .25rem;
+}
+
+input,
+button {
+	font-size: 1em;
+	border-radius: .5rem;
+}
+
+input {
+	border: .125em #fff;
+	border-style: none none solid none;
+
+	background: #fff7;
+}
+input.success {
+	animation: blink-success 1.5s;
+}
+
+@keyframes blink-success {
+	0% {
+		background: #6f67;
+	}
+	25% {
+		background: #6f67;
+	}
+
+	100% {
+		background: #fff7;
+	}
+}
+
+button {
+	padding: .25em;
+
+	border: none;
+
+	background: #fff7;
+
+	box-shadow: 0 .25rem .5rem #0007;
+}
+
+button:hover {
+	filter: brightness(1.5);
+	background: #fffa;
+}
+
+button:active {
+	filter: brightness(.5);
+}
+
+:root {
+	--circle-out: cubic-bezier(0, .5, .5, 1);
+}
+
+body {
+	margin: 0;
+
+	/* color: #fff; */
+	text-align: center;
+
+	background: radial-gradient(ellipse 120% 80% at top, #ffc74d, #f38e00);
+}
+
+main {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-rows: 1fr min-content 1fr;
+}
+
+form.hidden-radio > input[type="radio"] {
+	display: none;
+}
+
+form.hidden-radio > label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1em;
+	height: 1em;
+	margin: 0 .5em;
+
+	opacity: .5;
+	border-radius: 50%;
+
+	transition: opacity .4s var(--circle-out),
+			box-shadow .4s var(--circle-out);
+}
+
+form.hidden-radio > label:hover,
+form.hidden-radio > label:focus {
+	opacity: 1;
+}
+
+form.hidden-radio > input[type="radio"]:checked + label {
+	box-shadow: 0 0 0 4px #fff,
+			0 .25rem 1rem #0007;
+
+	opacity: 1;
+}
+
+form.hidden-radio > label.skintone {
+	border: 2px solid #000;
+}
+
+emoji-preview {
+	grid-row: 2;
+	display: flex;
+	flex-direction: column;
+	/* can't use `align-items: center;` here, since it places the scrollbar in the wrong position
+		instead `margin: auto;` is used on the children */
+	justify-content: center;
+	padding: 2rem 0;
+
+	overflow-x: auto;
+
+	font-size: 4em;
+	line-height: 1;
+	
+	user-select: none;
+
+	--member-display-width: 1em;
+	--member-boundary-width: 1rem;
+}
+
+/* emoji-preview:hover > :first-child {
+	top: -1rem;
+}
+
+emoji-preview:hover > :last-child {
+	top: 1rem;
+} */
+
+emoji-preview > emoji-row {
+	height: 1.5em;
+	margin: auto;
+	position: relative;
+	top: 0;
+	display: inline-flex;
+	align-items: stretch;
+
+	border-radius: .5rem;
+	box-shadow: 0 0 0 2px #fff7;
+
+	transition: top .3s var(--circle-out),
+			background .3s var(--circle-out),
+			box-shadow .3s var(--circle-out),
+			margin .3s var(--circle-out);
+}
+
+emoji-preview:hover > emoji-row {
+	box-shadow: 0 0 0 2px #fff;
+}
+
+emoji-preview > emoji-row:hover {
+	background: #444c;
+	box-shadow: 0 0 0 0 #fff3,
+			0 .25rem 1rem 0 #0007;
+}
+
+emoji-row[name="children"] {
+	/* align-self: flex-end; */
+	height: 1em; /* .75em; */
+	margin-top: .5em;
+	/* margin-left: calc(var(--row-offset-multiplier) * var(--row-indent-unit) + var(--member-display-width) / 2);
+
+	--row-indent-unit: calc(var(--member-display-width) + var(--member-boundary-width));
+	--row-offset-multiplier: 0; */
+}
+
+/* emoji-row[name="children"].single-shift {
+	--row-offset-multiplier: -1;
+}
+
+emoji-row[name="children"].double-shift {
+	--row-offset-multiplier: -2;
+} */
+
+member-display {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	overflow: hidden;
+
+	/* border-radius: 0 0 .25em .25em; */
+
+	cursor: pointer;
+	
+	background: linear-gradient(to bottom, #fff7, #fff7 50%, #0000 50%, #0000);
+	background-size: 100% 200%;
+	background-position: bottom;
+
+	transition: background-position .2s var(--circle-out),
+			filter .4s var(--circle-out),
+			text-shadow .4s var(--circle-out),
+			box-shadow .4s var(--circle-out);
+
+	animation: grow-in .4s ease forwards;
+
+	--grow-width: var(--member-display-width);
+}
+
+member-display:hover {
+	filter: brightness(1.5);
+}
+
+member-display.selected {
+	background-position: top;
+
+	text-shadow: 0 .5rem 1rem #0007;
+
+	box-shadow: 0 0 0 .2rem #fff;
+
+	/* border: 2px #fff; */
+	/* border-style: none solid solid solid; */
+}
+
+member-display.member-dragged {
+	text-indent: 100%;
+}
+
+.shrink-out {
+	animation: shrink-out .4s ease forwards;
+	/* animation-direction: reverse; */
+}
+
+@keyframes grow-in {
+	0% {
+		width: 0;
+		pointer-events: none;
+	}
+
+	100% {
+		width: var(--grow-width);
+		pointer-events: initial;
+	}
+}
+
+@keyframes shrink-out {
+	0% {
+		width: var(--grow-width);
+		pointer-events: none;
+	}
+
+	100% {
+		width: 0;
+	}
+}
+
+member-boundary {
+	cursor: cell;
+
+	--grow-width: var(--member-boundary-width);
+
+	animation: grow-in .4s ease forwards;
+}
+
+member-boundary:after {
+	content: " ";
+
+	display: block;
+	width: 4px;
+	height: 100%;
+	margin: auto;
+
+	opacity: 0;
+
+	background: linear-gradient(to bottom, #fffb, #fffb 50%, #0000 50%, #0000);
+	background-size: 100% 12px;
+
+	transition: opacity .3s var(--circle-out);
+}
+
+member-boundary:hover:after,
+member-boundary:focus:after,
+emoji-row.dragging member-boundary:after {
+	opacity: 1;
+}
+
+top-row {
+	grid-row: 1;
+	padding-top: 2em;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+member-settings-container {
+	display: inline-block;
+	position: relative;
+	padding: .25rem;
+	margin-bottom: 1.5rem;
+
+	font-size: 1.5em;
+	
+	background: #fff7;
+
+	border-radius: .5rem;
+}
+
+member-settings-container > button[name="member-delete"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	
+	transform: translate(50%, -50%);
+
+	font-size: .75em;
+}
+
+member-settings > * {
+	padding: .5rem;
+}
+
+member-settings > form + * {
+	border-top: 2px solid #fff;
+}
+
+bottom-row {
+	grid-row: 3;
+	padding-bottom: 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+input[name="output"] {
+	margin-bottom: .25rem;
+
+	font-size: 2em;
+	text-align: center;
+}
+
+button[name="copy-button"] {
+	font-size: 2em;
+}
+
+/* preview-display {
+	height: 24em;
+
+	background: radial-gradient(ellipse 120% 80% at bottom, #ffc74d, #f38e00);
+
+	font-size: 4em;
+}
+
+control-panel {
+	background: linear-gradient(#33333a, #272731);
+	color: #fff;
+} */

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<title></title>
+
+		<meta charset="UTF-16" />
+
+		<link href="./index.css" rel="stylesheet" />
+		
+		<script src="./index.js" type="module"></script>
+	</head>
+
+	<body>
+		<main>
+			<top-row>
+				<member-settings-container class="invisible">
+					<button name="member-delete">❌</button>
+					<member-settings></member-settings>
+				</member-settings-container>
+			</top-row>
+
+			<emoji-preview>
+				<emoji-row name="adults"></emoji-row>
+				<emoji-row name="children"></emoji-row>
+			</emoji-preview>
+
+			<bottom-row>
+				<input type="text" name="output" title="Output" />
+				<button name="copy-button" title="Copy output">📋</button>
+			</bottom-row>
+		</main>
+	</body>
+</html>
