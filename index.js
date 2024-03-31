@@ -236,18 +236,18 @@ class Member extends EventTarget {
 		 * @enum
 		 */
 		static Adult = Object.freeze({
-			MAN: new Type("👨", true),
+			PERSON: new Type("🧑", true),
 			WOMAN: new Type("👩", true),
-			// PERSON: new Type("🧑", true),
+			MAN: new Type("👨", true),
 		});
 		
 		/**
 		 * @enum
 		 */
 		static Child = Object.freeze({
-			BOY: new Type("👦", false),
+			CHILD: new Type("🧒", false),
 			GIRL: new Type("👧", false),
-			// CHILD: new Type("🧒", false),
+			BOY: new Type("👦", false),
 			BABY: new Type("👶", false),
 		});
 
@@ -778,9 +778,9 @@ class MemberBoundary extends HTMLElement {
 
 		this.addEventListener("click", () => {
 			if (this.isAdult) {
-				userActions.addMember(new Member(Member.Type.Adult.WOMAN, Member.Tone[0]), this.member);
+				userActions.addMember(new Member(Member.Type.Adult.PERSON, Member.Tone[0]), this.member);
 			} else {
-				userActions.addMember(new Member(Member.Type.Child.BABY, Member.Tone[0]), this.member);
+				userActions.addMember(new Member(Member.Type.Child.CHILD, Member.Tone[0]), this.member);
 			}
 		});
 
@@ -918,20 +918,21 @@ outputBox.addEventListener("input", () => {
 		outputBox.classList.remove("success");
 	};
 	copyButton.addEventListener("click", async () => {
-		const permission = await navigator.permissions.query({name: "clipboard-write"});
-		if (permission.state === "denied") return;
+		// Permission check not available on Firefox
+		// const permission = await navigator.permissions.query({name: "clipboard-write"});
+		// if (permission.state === "denied") return;
 
-		// try {
-		await navigator.clipboard.writeText(outputBox.value);
+		try {
+			await navigator.clipboard.writeText(outputBox.value);
 
-		// Flash green on success
-		outputBox.classList.remove("success");
-		outputBox.removeEventListener("animationend", successFlashHandler, {once: true});
-		void outputBox.offsetHeight; // Force reflow to ensure animation restarts properly
-		outputBox.classList.add("success");
-		outputBox.addEventListener("animationend", successFlashHandler, {once: true});
-		// } catch (error) {
-		// }
+			// Flash green on success
+			outputBox.classList.remove("success");
+			outputBox.removeEventListener("animationend", successFlashHandler, {once: true});
+			void outputBox.offsetHeight; // Force reflow to ensure animation restarts properly
+			outputBox.classList.add("success");
+			outputBox.addEventListener("animationend", successFlashHandler, {once: true});
+		} catch (error) {
+		}
 	});
 }
 
